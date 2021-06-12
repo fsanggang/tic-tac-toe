@@ -23,7 +23,7 @@ class Board extends React.Component {
 
   handleClick(i) {
     const squares = this.state.squares.slice(); // make a copy
-    if (calculateWinner(squares)) {
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
