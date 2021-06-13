@@ -76,10 +76,26 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[history.length -1];
-
     const winner = calculateWinner(current.squares);
-    let status;
 
+    // step is {squares: [...]}
+    // move is the index of history items
+    //
+    // when move = 0, step is the initial array of nulls in the constructor
+    // when move = 1, step may be [null, null, "X", null, null, null, null, null, null]
+    const moves = history.map((step, move) => {
+      console.log("step: ", step, " move: ", move);
+      const desc = move ? 'Go to move #' + move : 'Go to game start';
+
+      return(
+        <li key={move}>
+          <button>{desc}</button>
+        </li>
+      )
+    });
+
+
+    let status;
     if (winner) {
       status = 'We have a winner: ' + winner;
     } else {
@@ -97,7 +113,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{/* TODO */}</ol>
+          <ol>{moves}</ol>
         </div>
       </div>
     );
