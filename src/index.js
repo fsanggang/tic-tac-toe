@@ -52,6 +52,7 @@ class Game extends React.Component {
       history: [
         {squares: Array(9).fill(null)},
       ],
+      moveNumber: 0,
       xIsNext: true
     }
   }
@@ -69,6 +70,7 @@ class Game extends React.Component {
 
     this.setState({
       history: history.concat([{squares: squares}]),
+      moveNumber: history.length,
       xIsNext: !this.state.xIsNext,
     });
   }
@@ -83,6 +85,7 @@ class Game extends React.Component {
     //
     // when move = 0, step is the initial array of nulls in the constructor
     // when move = 1, step may be [null, null, "X", null, null, null, null, null, null]
+    // when move = 2, step may be [null, null, "X", null, "O", null, null, null, null]
     const moves = history.map((step, move) => {
       console.log("step: ", step, " move: ", move);
       const desc = move ? 'Go to move #' + move : 'Go to game start';
