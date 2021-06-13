@@ -52,6 +52,7 @@ class Game extends React.Component {
       history: [
         {squares: Array(9).fill(null)},
       ],
+      jumpNumber: null,
       moveNumber: 0,
       xIsNext: true
     }
@@ -70,6 +71,7 @@ class Game extends React.Component {
 
     this.setState({
       history: history.concat([{squares: squares}]),
+      jumpNumber: null, // have to reset to null if next move after a jump
       moveNumber: history.length,
       xIsNext: !this.state.xIsNext,
     });
@@ -77,6 +79,7 @@ class Game extends React.Component {
 
   jumpTo(move) {
     this.setState({
+      jumpNumber: move,
       moveNumber: move,
       xIsNext: (move % 2) === 0
     });
@@ -117,7 +120,11 @@ class Game extends React.Component {
 
       return(
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button
+            className={this.state.jumpNumber === move ? 'selected' : null}
+            onClick={() => this.jumpTo(move)}>
+            {desc}
+          </button>
         </li>
       )
     });
