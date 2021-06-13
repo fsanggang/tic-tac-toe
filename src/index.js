@@ -90,11 +90,30 @@ class Game extends React.Component {
     // step is {squares: [...]}
     // move is the index of history items
     //
-    // when move = 0, step is the initial array of nulls in the constructor
-    // when move = 1, step may be [null, null, "X", null, null, null, null, null, null]
-    // when move = 2, step may be [null, null, "X", null, "O", null, null, null, null]
+    // when move = 0, step.squares is the initial array of nulls in the constructor
+    // when move = 1, step.squares may be [null, null, "X", null, null, null, null, null, null]
+    // when move = 2, step.squares may be [null, null, "X", null, "O", null, null, null, null]
     const moves = history.map((step, move) => {
-      const desc = move ? 'Go to move #' + move : 'Go to game start';
+      let desc;
+
+      if (move) {
+        const prevSquare = history[move - 1].squares;
+        const currSquare = step.squares;
+
+        let col, row;
+
+        // is there an easier way to compare current with previous, maybe lodash?
+        for (const [index, value] of currSquare.entries()) {
+          if (value !== prevSquare[index]) {
+            col = (index % 3) + 1;
+            row = Math.floor(index / 3) + 1;
+          }
+        }
+
+        desc = 'Go to move #' + move + ' (' + col + ', ' + row + ')';
+      } else {
+        desc = 'Go to game start';
+      }
 
       return(
         <li key={move}>
